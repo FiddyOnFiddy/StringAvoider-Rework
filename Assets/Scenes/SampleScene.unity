@@ -197,16 +197,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd4666de94cd3f4082abe234d4eac51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringResolution: 100
+  stringResolution: 216
   segmentLength: 0.025
   radius: 0.1
   mousePosition: {x: 0, y: 0}
   previousMousePosition: {x: 0, y: 0}
   mouseDelta: {x: 0, y: 0}
-  headPosition: {x: 0, y: 0}
   stringPointPrefab: {fileID: 4618586219003132506, guid: b3a41ac3d40484f4d84856302d01f840, type: 3}
   stringPointsList: []
   spawnPoint: {fileID: 806297021}
+  canDrag: 0
 --- !u!1 &806297020
 GameObject:
   m_ObjectHideFlags: 0

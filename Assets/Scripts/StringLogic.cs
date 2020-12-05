@@ -50,10 +50,6 @@ public class StringLogic : MonoBehaviour
             mouseDelta = Vector2.zero;
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            canDrag = false;
-        }
 
         if (Input.GetMouseButton(0) && canDrag)
         {
@@ -61,7 +57,10 @@ public class StringLogic : MonoBehaviour
             previousMousePosition = mousePosition;
         }
 
-        
+        if (Input.GetMouseButtonUp(0))
+        {
+            canDrag = false;
+        }
     }
 
     void MoveString(float x, float y)
