@@ -15,6 +15,8 @@ public class StringLogic : MonoBehaviour
 
     [SerializeField] GameObject stringPointPrefab;
     [SerializeField] List<GameObject> stringPointsList;
+    [SerializeField] List<Rigidbody2D> stringPointsRB;
+    [SerializeField] List<Vector2> stringPointsData;
 
     [SerializeField] Transform spawnPoint;
 
@@ -25,6 +27,8 @@ public class StringLogic : MonoBehaviour
     void Awake()
     {
         stringPointsList = new List<GameObject>();
+        stringPointsRB = new List<Rigidbody2D>();
+        stringPointsData = new List<Vector2>();
 
         for (int i = 0; i < stringResolution; i++)
         {
@@ -33,6 +37,7 @@ public class StringLogic : MonoBehaviour
             Vector2 stringPointPosition = new Vector2((spawnPoint.position.x + radius * Mathf.Cos(radians)), spawnPoint.position.y + radius * Mathf.Sin(radians));
 
             stringPointsList.Add(Instantiate(stringPointPrefab, stringPointPosition, Quaternion.identity, this.transform));
+            stringPointsRB.Add(stringPointsList[i].GetComponent<Rigidbody2D>());
          }
     }
 
@@ -47,13 +52,12 @@ public class StringLogic : MonoBehaviour
         {
             canDrag = true;
             previousMousePosition = mousePosition;
-            mouseDelta = Vector2.zero;
+            mouseDelta = Vector2.zero; 
         }
 
 
         if (Input.GetMouseButton(0) && canDrag)
         {
-            MoveString(mouseDelta.x, mouseDelta.y);
             previousMousePosition = mousePosition;
         }
 
@@ -63,15 +67,25 @@ public class StringLogic : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if(canDrag)
+        {
+            MoveString(mouseDelta.x, mouseDelta.y);
+        }
+    }
+
     void MoveString(float x, float y)
     {
-        stringPointsList[0].transform.position = new Vector2(x + stringPointsList[0].transform.position.x, y + stringPointsList[0].transform.position.y);
+        //stringPointsList[0].transform.position = new Vector2(x + stringPointsList[0].transform.position.x, y + stringPointsList[0].transform.position.y);
+        stringPointsRB[0].MovePosition(new Vector2(x + stringPointsList[0].transform.position.x, y + stringPointsList[0].transform.position.y));
 
         for (int i = 1; i < stringResolution ; i++)
         {
             float nodeAngle = Mathf.Atan2(stringPointsList[i].transform.position.y - stringPointsList[i - 1].transform.position.y, stringPointsList[i].transform.position.x - stringPointsList[i - 1].transform.position.x);
 
-            stringPointsList[i].transform.position = new Vector2(stringPointsList[i - 1].transform.position.x + segmentLength * Mathf.Cos(nodeAngle), stringPointsList[i - 1].transform.position.y + segmentLength * Mathf.Sin(nodeAngle));
+            //stringPointsList[i].transform.position = new Vector2(stringPointsList[i - 1].transform.position.x + segmentLength * Mathf.Cos(nodeAngle), stringPointsList[i - 1].transform.position.y + segmentLength * Mathf.Sin(nodeAngle));
+            stringPointsRB[i].MovePosition(new Vector2(stringPointsList[i - 1].transform.position.x + segmentLength * Mathf.Cos(nodeAngle), stringPointsList[i - 1].transform.position.y + segmentLength * Mathf.Sin(nodeAngle)));
         }
     }
 }
