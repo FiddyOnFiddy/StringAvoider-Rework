@@ -23,10 +23,11 @@ public class StringLogic : MonoBehaviour
 
     [SerializeField] bool isMouseDown, doUpdateRigidbodies;
 
+
+    [SerializeField] float updateCount = 0, fixedUpdateCount = 0, updateUpdateCountPerSeond, updateFixedUpdateCountPerSecond;
+
     void Awake()
     {
-
-
         stringPointsGO = new List<GameObject>();
         stringPointsRB = new List<Rigidbody2D>();
         stringPointsData = new List<Vector2>();
@@ -44,6 +45,8 @@ public class StringLogic : MonoBehaviour
 
     void Update()
     {
+        updateCount += 1;
+
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseDelta = mousePosition - previousMousePosition;
         mouseDelta *= mouseSensitivity;
@@ -66,21 +69,13 @@ public class StringLogic : MonoBehaviour
         {
             isMouseDown = false;
         }
-
-        /*if(!isMouseDown)
-        {
-            for (int i = 0; i < noOfSegments; i++)
-            {
-                stringPointsRB[i].MovePosition(stringPointsData[i]);
-            }
-        }*/
     }
+
 
     void MoveString(float x, float y)
     {
         stringPointsData[0] = new Vector2(x + stringPointsData[0].x, y + stringPointsData[0].y);
         stringPointsRB[0].MovePosition(stringPointsData[0]);
-
 
         for (int i = 1; i < noOfSegments ; i++)
         {
@@ -88,9 +83,8 @@ public class StringLogic : MonoBehaviour
 
             stringPointsData[i] = new Vector2(stringPointsData[i - 1].x + segmentLength * Mathf.Cos(nodeAngle), stringPointsData[i - 1].y + segmentLength * Mathf.Sin(nodeAngle));
             stringPointsRB[i].MovePosition(stringPointsData[i]);
-            
+
         }
     }
-
 
 }
