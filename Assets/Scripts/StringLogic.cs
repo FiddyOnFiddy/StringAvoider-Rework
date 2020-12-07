@@ -18,13 +18,16 @@ public class StringLogic : MonoBehaviour
     [SerializeField] List<GameObject> stringPointsGO;
     [SerializeField] List<Rigidbody2D> stringPointsRB;
     [SerializeField] List<Vector2> stringPointsData;
+    [SerializeField] EdgeCollider2D stringEdgeCollider;
 
     [SerializeField] Transform spawnPoint;
 
     [SerializeField] bool isMouseDown, doUpdateRigidbodies;
 
 
-    [SerializeField] float updateCount = 0, fixedUpdateCount = 0, updateUpdateCountPerSeond, updateFixedUpdateCountPerSecond;
+
+    [SerializeField] float boxColliderRotationOffset = 0;
+
 
     void Awake()
     {
@@ -41,11 +44,19 @@ public class StringLogic : MonoBehaviour
             stringPointsGO.Add(Instantiate(stringPointPrefab, stringPointsData[i], Quaternion.identity, this.transform));
             stringPointsRB.Add(stringPointsGO[i].GetComponent<Rigidbody2D>());
          }
+
+       // BoxCollider2D boxCollider = stringPointsGO[0].AddComponent<BoxCollider2D>();
+       // boxCollider.size = new Vector2(1.3f, 1.3f);
+        //boxCollider.edgeRadius = 0.02f;
+
+
+        //stringEdgeCollider.points = stringPointsData.ToArray();
+
+
     }
 
     void Update()
     {
-        updateCount += 1;
 
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseDelta = mousePosition - previousMousePosition;
@@ -69,6 +80,9 @@ public class StringLogic : MonoBehaviour
         {
             isMouseDown = false;
         }
+
+        RemoveInertia();
+        
     }
 
 
@@ -85,6 +99,18 @@ public class StringLogic : MonoBehaviour
             stringPointsRB[i].MovePosition(stringPointsData[i]);
 
         }
+
+        //stringEdgeCollider.points = stringPointsData.ToArray();
+
     }
+
+    void RemoveInertia()
+    {
+        for (int i = 0; i < noOfSegments; i++)
+        {
+            stringPointsRB[i].velocity = Vector2.zero;
+        }
+    }
+
 
 }

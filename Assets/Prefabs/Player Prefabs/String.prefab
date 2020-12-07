@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 479674508}
   m_Layer: 0
   m_Name: String
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,13 +43,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd4666de94cd3f4082abe234d4eac51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringResolution: 150
+  noOfSegments: 150
   segmentLength: 0.025
   radius: 0.1
   mousePosition: {x: 0, y: 0}
   previousMousePosition: {x: 0, y: 0}
   mouseDelta: {x: 0, y: 0}
+  mouseSensitivity: 1
   stringPointPrefab: {fileID: 4618586219003132506, guid: b3a41ac3d40484f4d84856302d01f840, type: 3}
-  stringPointsList: []
+  stringPointsGO: []
+  stringPointsRB: []
+  stringPointsData: []
+  stringEdgeCollider: {fileID: 0}
   spawnPoint: {fileID: 0}
-  canDrag: 0
+  isMouseDown: 0
+  doUpdateRigidbodies: 0
+  boxColliderRotationOffset: 0
