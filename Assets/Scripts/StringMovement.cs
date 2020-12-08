@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class StringLogic : MonoBehaviour
+public class StringMovement : MonoBehaviour
 {
     [SerializeField] int noOfSegments;
     [SerializeField] float segmentLength = 0.025f;
@@ -18,16 +18,29 @@ public class StringLogic : MonoBehaviour
     [SerializeField] List<GameObject> stringPointsGO;
     [SerializeField] List<Rigidbody2D> stringPointsRB;
     [SerializeField] List<Vector2> stringPointsData;
-    [SerializeField] EdgeCollider2D stringEdgeCollider;
 
     [SerializeField] Transform spawnPoint;
 
     [SerializeField] bool isMouseDown, doUpdateRigidbodies;
 
+    public List<GameObject> StringPointsGO
+    {
+        get { return stringPointsGO; }
+        set { stringPointsGO = value; }
+    }
 
+    public List<Rigidbody2D> StringPointsRB
+    {
+        get { return stringPointsRB; }
+        set { stringPointsRB = value; }
+    }
 
-    [SerializeField] float boxColliderRotationOffset = 0;
-
+    public List<Vector2> StringPointsData
+    {
+        get { return stringPointsData; }
+        set { stringPointsData = value; }
+    }
+    
 
     void Awake()
     {
@@ -42,16 +55,14 @@ public class StringLogic : MonoBehaviour
             stringPointsData.Add(new Vector2((spawnPoint.position.x + radius * Mathf.Cos(radians)), spawnPoint.position.y + radius * Mathf.Sin(radians)));
 
             stringPointsGO.Add(Instantiate(stringPointPrefab, stringPointsData[i], Quaternion.identity, this.transform));
+            stringPointsGO[i].name = "String Point #" + i;
             stringPointsRB.Add(stringPointsGO[i].GetComponent<Rigidbody2D>());
          }
 
-       // BoxCollider2D boxCollider = stringPointsGO[0].AddComponent<BoxCollider2D>();
-       // boxCollider.size = new Vector2(1.3f, 1.3f);
-        //boxCollider.edgeRadius = 0.02f;
-
-
-        //stringEdgeCollider.points = stringPointsData.ToArray();
-
+        stringPointsGO[0].GetComponent<CircleCollider2D>().enabled = false;
+        BoxCollider2D boxCollider = stringPointsGO[0].AddComponent<BoxCollider2D>();
+        boxCollider.size = new Vector2(1.3f, 1.3f);
+        boxCollider.edgeRadius = 0.02f;
 
     }
 
@@ -79,10 +90,7 @@ public class StringLogic : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isMouseDown = false;
-        }
-
-        RemoveInertia();
-        
+        }        
     }
 
 
@@ -99,18 +107,5 @@ public class StringLogic : MonoBehaviour
             stringPointsRB[i].MovePosition(stringPointsData[i]);
 
         }
-
-        //stringEdgeCollider.points = stringPointsData.ToArray();
-
     }
-
-    void RemoveInertia()
-    {
-        for (int i = 0; i < noOfSegments; i++)
-        {
-            stringPointsRB[i].velocity = Vector2.zero;
-        }
-    }
-
-
 }
