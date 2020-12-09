@@ -21,7 +21,9 @@ public class StringMovement : MonoBehaviour
 
     [SerializeField] Transform spawnPoint;
 
-    [SerializeField] bool isMouseDown, doUpdateRigidbodies;
+    [SerializeField] bool isMouseDown, doUpdateRigidbodies, canMove = true;
+
+    EdgeCollider2D stringEdgeCollider;
 
     public List<GameObject> StringPointsGO
     {
@@ -40,13 +42,19 @@ public class StringMovement : MonoBehaviour
         get { return stringPointsData; }
         set { stringPointsData = value; }
     }
-    
+
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
 
     void Awake()
     {
         stringPointsGO = new List<GameObject>();
         stringPointsRB = new List<Rigidbody2D>();
         stringPointsData = new List<Vector2>();
+        stringEdgeCollider = GetComponent<EdgeCollider2D>();
 
         for (int i = 0; i < noOfSegments; i++)
         {
@@ -55,7 +63,7 @@ public class StringMovement : MonoBehaviour
             stringPointsData.Add(new Vector2((spawnPoint.position.x + radius * Mathf.Cos(radians)), spawnPoint.position.y + radius * Mathf.Sin(radians)));
 
             stringPointsGO.Add(Instantiate(stringPointPrefab, stringPointsData[i], Quaternion.identity, this.transform));
-            stringPointsGO[i].name = "String Point #" + i;
+            stringPointsGO[i].name = i.ToString();
             stringPointsRB.Add(stringPointsGO[i].GetComponent<Rigidbody2D>());
          }
 
@@ -64,11 +72,13 @@ public class StringMovement : MonoBehaviour
         boxCollider.size = new Vector2(1.3f, 1.3f);
         boxCollider.edgeRadius = 0.02f;
 
+        //stringEdgeCollider.points = StringPointsData.ToArray();
+
+
     }
 
     void Update()
     {
-
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseDelta = mousePosition - previousMousePosition;
         mouseDelta *= mouseSensitivity;
@@ -80,7 +90,7 @@ public class StringMovement : MonoBehaviour
             mouseDelta = Vector2.zero; 
         }
 
-        if (Input.GetMouseButton(0) && isMouseDown)
+        if (Input.GetMouseButton(0) && isMouseDown && canMove)
         {
             MoveString(mouseDelta.x, mouseDelta.y);
 
@@ -94,18 +104,21 @@ public class StringMovement : MonoBehaviour
     }
 
 
-    void MoveString(float x, float y)
+    public void MoveString(float x, float y)
     {
         stringPointsData[0] = new Vector2(x + stringPointsData[0].x, y + stringPointsData[0].y);
         stringPointsRB[0].MovePosition(stringPointsData[0]);
 
-        for (int i = 1; i < noOfSegments ; i++)
+        for (int i = 1; i < noOfSegments; i++)
         {
             float nodeAngle = Mathf.Atan2(stringPointsData[i].y - stringPointsData[i - 1].y, stringPointsData[i].x - stringPointsData[i - 1].x);
 
             stringPointsData[i] = new Vector2(stringPointsData[i - 1].x + segmentLength * Mathf.Cos(nodeAngle), stringPointsData[i - 1].y + segmentLength * Mathf.Sin(nodeAngle));
             stringPointsRB[i].MovePosition(stringPointsData[i]);
-
         }
+
+        //stringEdgeCollider.points = StringPointsData.ToArray();
+
+
     }
 }

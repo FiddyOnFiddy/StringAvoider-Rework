@@ -1,15 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StringColliisionScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Vector3 stringPointIntersectedWith;
+    [SerializeField] static int stringPointIntersectedWith;
 
-    public Vector3 StringPointIntersectedWith
+    public static int StringPointIntersectedWith => stringPointIntersectedWith;
+
+    [SerializeField] static bool isDead;
+
+    public static bool IsDead
     {
-        get { return stringPointIntersectedWith; }
+        get { return isDead; }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -19,10 +24,10 @@ public class StringColliisionScript : MonoBehaviour
 
     void TriggerDeathScript(Collision2D collisionObject)
     {
-        if(collisionObject.gameObject.tag == "Wall")
+        if(collisionObject.gameObject.tag == "String Point")
         {
-            Debug.Log("Collided");
-
+            stringPointIntersectedWith = Int16.Parse(collisionObject.contacts[0].collider.name);
+            isDead = true;
         }
     }
 }

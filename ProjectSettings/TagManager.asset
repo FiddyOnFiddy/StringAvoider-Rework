@@ -8,6 +8,7 @@ TagManager:
   - End
   - SpawnPoint
   - Key
+  - String Point
   layers:
   - Default
   - TransparentFX
