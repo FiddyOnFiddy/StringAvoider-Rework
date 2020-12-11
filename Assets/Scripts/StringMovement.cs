@@ -23,7 +23,6 @@ public class StringMovement : MonoBehaviour
 
     [SerializeField] bool isMouseDown, doUpdateRigidbodies, canMove = true;
 
-    EdgeCollider2D stringEdgeCollider;
 
     public List<GameObject> StringPointsGO
     {
@@ -54,7 +53,6 @@ public class StringMovement : MonoBehaviour
         stringPointsGO = new List<GameObject>();
         stringPointsRB = new List<Rigidbody2D>();
         stringPointsData = new List<Vector2>();
-        stringEdgeCollider = GetComponent<EdgeCollider2D>();
 
         for (int i = 0; i < noOfSegments; i++)
         {
@@ -72,7 +70,6 @@ public class StringMovement : MonoBehaviour
         boxCollider.size = new Vector2(1.3f, 1.3f);
         boxCollider.edgeRadius = 0.02f;
 
-        //stringEdgeCollider.points = StringPointsData.ToArray();
 
 
     }
@@ -116,9 +113,6 @@ public class StringMovement : MonoBehaviour
             stringPointsData[i] = new Vector2(stringPointsData[i - 1].x + segmentLength * Mathf.Cos(nodeAngle), stringPointsData[i - 1].y + segmentLength * Mathf.Sin(nodeAngle));
             stringPointsRB[i].MovePosition(stringPointsData[i]);
         }
-
-        //stringEdgeCollider.points = StringPointsData.ToArray();
-
 
     }
 }
