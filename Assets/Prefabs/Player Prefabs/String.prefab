@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 553728471610324904}
   - component: {fileID: 479674508}
-  m_Layer: 0
+  - component: {fileID: 1293379679}
+  - component: {fileID: 1293379676}
+  m_Layer: 9
   m_Name: String
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -43,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd4666de94cd3f4082abe234d4eac51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noOfSegments: 150
+  noOfSegments: 270
   segmentLength: 0.025
   radius: 0.1
   mousePosition: {x: 0, y: 0}
@@ -54,8 +56,39 @@ MonoBehaviour:
   stringPointsGO: []
   stringPointsRB: []
   stringPointsData: []
-  stringEdgeCollider: {fileID: 0}
   spawnPoint: {fileID: 0}
   isMouseDown: 0
   doUpdateRigidbodies: 0
-  boxColliderRotationOffset: 0
+  canMove: 1
+--- !u!68 &1293379679
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553728471610324911}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0.065
+  m_Points: []
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!114 &1293379676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553728471610324911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3024df3f54224bbeec6b00761ec01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
