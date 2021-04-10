@@ -10,7 +10,7 @@ public class StringMovement : MonoBehaviour
     [SerializeField] float radius = 0.1f;
 
     [SerializeField] Vector2 mousePosition, previousMousePosition, mouseDelta;
-    [SerializeField] float mouseSensitivity; 
+    [SerializeField] float mouseSensitivity, mouseDeltaLimit = 0.25f; 
 
     float radians;
 
@@ -78,6 +78,9 @@ public class StringMovement : MonoBehaviour
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseDelta = mousePosition - previousMousePosition;
+        mouseDelta.x = Mathf.Clamp(mouseDelta.x, -mouseDeltaLimit, mouseDeltaLimit);
+        mouseDelta.y = Mathf.Clamp(mouseDelta.y, -mouseDeltaLimit, mouseDeltaLimit);
+
         mouseDelta *= mouseSensitivity;
 
         if (Input.GetMouseButtonDown(0))
