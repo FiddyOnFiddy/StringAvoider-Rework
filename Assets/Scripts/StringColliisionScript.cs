@@ -7,7 +7,7 @@ public class StringColliisionScript : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] static int stringPointIntersectedWith;
-
+    
     public static int StringPointIntersectedWith => stringPointIntersectedWith;
 
     [SerializeField] static bool isDead;
@@ -26,6 +26,7 @@ public class StringColliisionScript : MonoBehaviour
     {
         if(collisionObject.gameObject.tag == "String Point")
         {
+            
             stringPointIntersectedWith = Int16.Parse(collisionObject.contacts[0].collider.name);
             isDead = true;
         }

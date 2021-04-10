@@ -16,10 +16,10 @@ public class StringDeathScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(StringColliisionScript.IsDead && !gameOver)
+        if(RaycastCollisionTest.IsDead && !gameOver)
         {
             stringMovement.CanMove = false;
-            Debug.Log("dead: " + StringColliisionScript.StringPointIntersectedWith);
+            Debug.Log("dead: " + RaycastCollisionTest.StringPointIntersectedWith);
             gameOver = true;
         }
     }
