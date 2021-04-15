@@ -753,7 +753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: mouseDeltaLimit
-      value: 0.1
+      value: 3.46
       objectReference: {fileID: 0}
     - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: mouseSensitivity
