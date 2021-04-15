@@ -334,6 +334,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8505663563874507241, guid: ce1ad8b95913adb40829e6445bcfb917, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce1ad8b95913adb40829e6445bcfb917, type: 3}
 --- !u!1 &609944909
@@ -740,8 +744,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 806297021}
     - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
+      propertyPath: noOfSegments
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
+      propertyPath: segmentLength
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: mouseDeltaLimit
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1293379679, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: m_Enabled

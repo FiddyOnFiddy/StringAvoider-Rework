@@ -81,7 +81,7 @@ public class StringMovement : MonoBehaviour
         mouseDelta.x = Mathf.Clamp(mouseDelta.x, -mouseDeltaLimit, mouseDeltaLimit);
         mouseDelta.y = Mathf.Clamp(mouseDelta.y, -mouseDeltaLimit, mouseDeltaLimit);
 
-        mouseDelta *= mouseSensitivity;
+        // mouseDelta *= mouseSensitivity;
 
         if (Input.GetMouseButtonDown(0))
         {
