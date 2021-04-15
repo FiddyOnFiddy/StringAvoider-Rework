@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 609944910}
   m_Layer: 0
   m_Name: Wall (5)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -754,6 +754,10 @@ PrefabInstance:
     - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: mouseDeltaLimit
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 479674508, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
+      propertyPath: mouseSensitivity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1293379679, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: m_Enabled

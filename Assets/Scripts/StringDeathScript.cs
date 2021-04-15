@@ -19,6 +19,7 @@ public class StringDeathScript : MonoBehaviour
         if(RaycastCollisionTest.IsDead && !gameOver)
         {
             stringMovement.CanMove = false;
+            stringMovement.MoveRigidBodies = false;
             Debug.Log("dead: " + RaycastCollisionTest.StringPointIntersectedWith);
             gameOver = true;
         }

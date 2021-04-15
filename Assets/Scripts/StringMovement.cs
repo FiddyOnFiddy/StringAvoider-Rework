@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class StringMovement : MonoBehaviour
@@ -21,7 +20,7 @@ public class StringMovement : MonoBehaviour
 
     [SerializeField] Transform spawnPoint;
 
-    [SerializeField] bool isMouseDown, doUpdateRigidbodies, canMove = true;
+    [SerializeField] bool isMouseDown, moveRigidBodies, canMove = true;
 
 
     public List<GameObject> StringPointsGO
@@ -46,6 +45,12 @@ public class StringMovement : MonoBehaviour
     {
         get { return canMove; }
         set { canMove = value; }
+    }
+    
+    public bool MoveRigidBodies
+    {
+        get { return moveRigidBodies; }
+        set { moveRigidBodies = value; }
     }
 
     void Awake()
@@ -81,8 +86,6 @@ public class StringMovement : MonoBehaviour
         mouseDelta.x = Mathf.Clamp(mouseDelta.x, -mouseDeltaLimit, mouseDeltaLimit);
         mouseDelta.y = Mathf.Clamp(mouseDelta.y, -mouseDeltaLimit, mouseDeltaLimit);
 
-        // mouseDelta *= mouseSensitivity;
-
         if (Input.GetMouseButtonDown(0))
         {
             isMouseDown = true;
@@ -92,28 +95,46 @@ public class StringMovement : MonoBehaviour
 
         if (Input.GetMouseButton(0) && isMouseDown && canMove)
         {
-            MoveString(mouseDelta.x, mouseDelta.y);
-
+            UpdateStringPointsData(mouseDelta.x, mouseDelta.y);
+            moveRigidBodies = true;
             previousMousePosition = mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isMouseDown = false;
-        }        
+            moveRigidBodies = false;
+
+        }
     }
 
+    void FixedUpdate()
+    {
+       if(moveRigidBodies)
+        {
+            UpdateRigidBodies();
+        }
+        
+    }
+  
 
-    public void MoveString(float x, float y)
+    public void UpdateStringPointsData(float x, float y)
     {
         stringPointsData[0] = new Vector2(x + stringPointsData[0].x, y + stringPointsData[0].y);
-        stringPointsRB[0].MovePosition(stringPointsData[0]);
 
         for (int i = 1; i < noOfSegments; i++)
         {
             float nodeAngle = Mathf.Atan2(stringPointsData[i].y - stringPointsData[i - 1].y, stringPointsData[i].x - stringPointsData[i - 1].x);
 
             stringPointsData[i] = new Vector2(stringPointsData[i - 1].x + segmentLength * Mathf.Cos(nodeAngle), stringPointsData[i - 1].y + segmentLength * Mathf.Sin(nodeAngle));
+        }
+    }
+
+    public void UpdateRigidBodies()
+    {
+
+        for (int i = 0; i < noOfSegments; i++)
+        {
             stringPointsRB[i].MovePosition(stringPointsData[i]);
         }
 
