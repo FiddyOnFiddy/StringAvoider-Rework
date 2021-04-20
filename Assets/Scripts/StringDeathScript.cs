@@ -7,6 +7,12 @@ public class StringDeathScript : MonoBehaviour
     StringMovement stringMovement;
     [SerializeField] bool gameOver;
 
+    public bool GameOver
+    {
+        get { return gameOver; }
+        set { gameOver = value; }
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -16,18 +22,13 @@ public class StringDeathScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(RaycastCollisionTest.IsDead && !gameOver)
+        if (StringCollisionScript.IsDead && !gameOver)
         {
             stringMovement.CanMove = false;
             stringMovement.MoveRigidBodies = false;
-            Debug.Log("dead: " + RaycastCollisionTest.StringPointIntersectedWith);
+            Debug.Log("dead: " + StringCollisionScript.StringPointIntersectedWith);
             gameOver = true;
         }
-    }
-
-    void GameOver()
-    {
-        
     }
 
 }

@@ -55,6 +55,7 @@ public class StringMovement : MonoBehaviour
 
     void Awake()
     {
+
         stringPointsGO = new List<GameObject>();
         stringPointsRB = new List<Rigidbody2D>();
         stringPointsData = new List<Vector2>();
