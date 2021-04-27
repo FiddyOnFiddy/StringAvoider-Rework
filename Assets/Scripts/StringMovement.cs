@@ -5,6 +5,8 @@ using UnityEngine;
 public class StringMovement : MonoBehaviour
 {
     [SerializeField] int noOfSegments;
+    public int NoOfSegments { get => noOfSegments; set => noOfSegments = value; }
+
     [SerializeField] float segmentLength = 0.025f;
     [SerializeField] float radius = 0.1f;
 
@@ -18,100 +20,49 @@ public class StringMovement : MonoBehaviour
     [SerializeField] List<Rigidbody2D> stringPointsRB;
     [SerializeField] List<Vector2> stringPointsData;
 
+	public List<GameObject> StringPointsGO { get => stringPointsGO; set => stringPointsGO = value; }
+    public List<Rigidbody2D> StringPointsRB { get => stringPointsRB; set => stringPointsRB = value; }
+    public List<Vector2> StringPointsData { get => stringPointsData; set => stringPointsData = value; }
+
+
     [SerializeField] Transform spawnPoint;
-
-    [SerializeField] bool isMouseDown, moveRigidBodies, canMove = true;
-
-
-    public List<GameObject> StringPointsGO
-    {
-        get { return stringPointsGO; }
-        set { stringPointsGO = value; }
-    }
-
-    public List<Rigidbody2D> StringPointsRB
-    {
-        get { return stringPointsRB; }
-        set { stringPointsRB = value; }
-    }
-
-    public List<Vector2> StringPointsData
-    {
-        get { return stringPointsData; }
-        set { stringPointsData = value; }
-    }
-
-    public bool CanMove
-    {
-        get { return canMove; }
-        set { canMove = value; }
-    }
-    
-    public bool MoveRigidBodies
-    {
-        get { return moveRigidBodies; }
-        set { moveRigidBodies = value; }
-    }
 
     void Awake()
     {
-
-        stringPointsGO = new List<GameObject>();
-        stringPointsRB = new List<Rigidbody2D>();
-        stringPointsData = new List<Vector2>();
-
-        for (int i = 0; i < noOfSegments; i++)
-        {
-            radians = 12 * Mathf.PI * i / noOfSegments + Mathf.PI / 4;
-
-            stringPointsData.Add(new Vector2((spawnPoint.position.x + radius * Mathf.Cos(radians)), spawnPoint.position.y + radius * Mathf.Sin(radians)));
-
-            stringPointsGO.Add(Instantiate(stringPointPrefab, stringPointsData[i], Quaternion.identity, this.transform));
-            stringPointsGO[i].name = i.ToString();
-            stringPointsRB.Add(stringPointsGO[i].GetComponent<Rigidbody2D>());
-         }
-
-        stringPointsGO[0].GetComponent<CircleCollider2D>().enabled = false;
-        BoxCollider2D boxCollider = stringPointsGO[0].AddComponent<BoxCollider2D>();
-        boxCollider.size = new Vector2(1.3f, 1.3f);
-        boxCollider.edgeRadius = 0.02f;
-
-
-
+        InitialiseString();
     }
 
     void Update()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseDelta = mousePosition - previousMousePosition;
-        mouseDelta.x = Mathf.Clamp(mouseDelta.x, -mouseDeltaLimit, mouseDeltaLimit);
-        mouseDelta.y = Mathf.Clamp(mouseDelta.y, -mouseDeltaLimit, mouseDeltaLimit);
-
-        if (Input.GetMouseButtonDown(0))
+        
+        if(GameManagerScript.Instance.CurrentState == GameManagerScript.GameState.Idle)
         {
-            isMouseDown = true;
-            previousMousePosition = mousePosition;
-            mouseDelta = Vector2.zero; 
-        }
+            CollectInput();
+            if (Input.GetMouseButtonDown(0))
+            {
+                
+                previousMousePosition = mousePosition;
+                mouseDelta = Vector2.zero;
+            }
 
-        if (Input.GetMouseButton(0) && isMouseDown && canMove)
-        {
-            UpdateStringPointsData(mouseDelta.x, mouseDelta.y);
-            moveRigidBodies = true;
-            previousMousePosition = mousePosition;
-        }
+            if (Input.GetMouseButton(0))
+            {
+                UpdateStringPointsData(mouseDelta.x, mouseDelta.y);
+                GameManagerScript.Instance.MoveRigidBodies = true;
+                previousMousePosition = mousePosition;
+            }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMouseDown = false;
-            moveRigidBodies = false;
-
+            if (Input.GetMouseButtonUp(0))
+            {
+                GameManagerScript.Instance.MoveRigidBodies = false;
+            }
         }
+        
     }
 
     void FixedUpdate()
     {
-       if(moveRigidBodies)
+       if(GameManagerScript.Instance.MoveRigidBodies)
         {
             UpdateRigidBodies();
         }
@@ -139,5 +90,37 @@ public class StringMovement : MonoBehaviour
             stringPointsRB[i].MovePosition(stringPointsData[i]);
         }
 
+    }
+
+    void CollectInput()
+    {
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseDelta = mousePosition - previousMousePosition;
+        mouseDelta.x = Mathf.Clamp(mouseDelta.x, -mouseDeltaLimit, mouseDeltaLimit);
+        mouseDelta.y = Mathf.Clamp(mouseDelta.y, -mouseDeltaLimit, mouseDeltaLimit);
+
+    }    
+
+    void InitialiseString()
+    {
+        stringPointsGO = new List<GameObject>();
+        stringPointsRB = new List<Rigidbody2D>();
+        stringPointsData = new List<Vector2>();
+
+        for (int i = 0; i < noOfSegments; i++)
+        {
+            radians = 12 * Mathf.PI * i / noOfSegments + Mathf.PI / 4;
+
+            stringPointsData.Add(new Vector2((spawnPoint.position.x + radius * Mathf.Cos(radians)), spawnPoint.position.y + radius * Mathf.Sin(radians)));
+
+            stringPointsGO.Add(Instantiate(stringPointPrefab, stringPointsData[i], Quaternion.identity, this.transform));
+            stringPointsGO[i].name = i.ToString();
+            stringPointsRB.Add(stringPointsGO[i].GetComponent<Rigidbody2D>());
+        }
+
+        stringPointsGO[0].GetComponent<CircleCollider2D>().enabled = false;
+        BoxCollider2D boxCollider = stringPointsGO[0].AddComponent<BoxCollider2D>();
+        boxCollider.size = new Vector2(1.3f, 1.3f);
+        boxCollider.edgeRadius = 0.015f;
     }
 }

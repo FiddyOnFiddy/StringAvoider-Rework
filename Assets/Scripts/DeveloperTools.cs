@@ -6,15 +6,11 @@ using UnityEngine.SceneManagement;
 public class DeveloperTools : MonoBehaviour
 {
     private string currentScene;
-    StringDeathScript stringDeathScript;
-    StringMovement stringMovementScript;
 
     // Start is called before the first frame update
     void Awake()
     {
         currentScene = SceneManager.GetActiveScene().name;
-        stringDeathScript = GameObject.FindObjectOfType<StringDeathScript>();
-        stringMovementScript = GameObject.FindObjectOfType<StringMovement>();
 
     }
 
@@ -31,6 +27,7 @@ public class DeveloperTools : MonoBehaviour
     void ReloadLevel()
     {
         SceneManager.LoadScene(currentScene);
+        GameManagerScript.Instance.CurrentState = GameManagerScript.GameState.Idle;
 
     }
 }
