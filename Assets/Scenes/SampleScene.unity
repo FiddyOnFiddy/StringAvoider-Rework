@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2832400912643781375, guid: 64989149a8b04ac4b89f3ff3b98286f9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64989149a8b04ac4b89f3ff3b98286f9, type: 3}
@@ -779,6 +779,10 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 806297021}
+    - target: {fileID: -6272511276924981494, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
+      propertyPath: noOfSegments
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: -6272511276924981494, guid: e42832ab6c48c4c45bbae5879c44f232, type: 3}
       propertyPath: segmentLength
       value: 0.04
